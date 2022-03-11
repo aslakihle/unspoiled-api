@@ -6,6 +6,7 @@ var jwt = require('jsonwebtoken');
 
 
 exports.login = (req, res) => {
+  console.log('login controller')
   loginDb.findByName(req.body.username, (err, data) => {
       // console.log(req.body.username)
     if (err) {
