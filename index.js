@@ -7,7 +7,7 @@ var corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://192.168.0.238:8000",
-    "https://unspoiled.vercel.app/",
+    "https://unspoiled.vercel.app",
   ],
   credentials: true,
   exposedHeaders: ["set-cookie"],
