@@ -11,6 +11,7 @@ var corsOptions = {
   credentials: true,
   exposedHeaders: ["set-cookie"],
 };
+
 app.use(cors(corsOptions));
 
 // app.use(function (req, res, next) {
