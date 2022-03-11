@@ -15,7 +15,7 @@ exports.findByName = (username, result) => {
       return;
     }
     if (res.length) {
-      console.log("found user: ", res[0]);
+      // console.log("found user: ", res[0]);
       result(null, res[0]);
       return;
     } else {
@@ -26,7 +26,6 @@ exports.findByName = (username, result) => {
 };
 
 exports.addNewUser = (username, password, result) => {
-  console.log('before sql')
   sql.query(`INSERT INTO users (username, password_hash) VALUES ("${username}", "${password}");`, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -34,7 +33,6 @@ exports.addNewUser = (username, password, result) => {
       return;
     } 
     if (res) {
-      console.log('loginDb, addnewuser, 2nd if')
       result(null, res);
       return;
     } 
