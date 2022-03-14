@@ -4,11 +4,11 @@ const app = express();
 
 const cors = require("cors");
 var corsOptions = {
-  origin: [
-    "https://unspoiled.vercel.app",
-    "http://localhost:3000",
-    "http://192.168.0.238:8000",
-  ],
+  origin: "https://unspoiled.vercel.app",
+  // origin: [
+  //   "https://unspoiled.vercel.app",
+  //   "http://localhost:3000",
+  // ],
   credentials: true,
   exposedHeaders: ["set-cookie"],
 };
