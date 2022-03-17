@@ -16,33 +16,28 @@ CREATE TABLE users
 CREATE TABLE images
 (
   image_id INT NOT NULL AUTO_INCREMENT,
-  name INT NOT NULL,
-  img_blob INT NOT NULL,
-  tags INT NOT NULL,
+  img_blob MEDIUMBLOB NOT NULL,
   PRIMARY KEY (image_id)
 );
 
 CREATE TABLE roles
 (
   role_id INT NOT NULL AUTO_INCREMENT,
-  name INT NOT NULL,
+  name VARCHAR(30) NOT NULL,
   PRIMARY KEY (role_id)
 );
 
 CREATE TABLE authors
 (
   author_id INT NOT NULL AUTO_INCREMENT,
-  first_name INT NOT NULL,
-  middle_name INT NOT NULL,
-  last_name INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
   PRIMARY KEY (author_id)
 );
 
 CREATE TABLE bookseries
 (
   bookseries_id INT NOT NULL AUTO_INCREMENT,
-  name INT NOT NULL,
-  author INT NOT NULL,
+  name VARCHAR(30) NOT NULL,
   author_id INT NOT NULL,
   image_id INT NOT NULL,
   user_id INT NOT NULL,
@@ -55,7 +50,7 @@ CREATE TABLE bookseries
 CREATE TABLE existents
 (
   existent_id INT NOT NULL AUTO_INCREMENT,
-  name INT NOT NULL,
+  name VARCHAR(30) NOT NULL,
   bookseries_id INT NOT NULL,
   categroy_id INT NOT NULL,
   image_id INT NOT NULL,
@@ -68,8 +63,8 @@ CREATE TABLE existents
 CREATE TABLE posts
 (
   post_id INT NOT NULL AUTO_INCREMENT,
-  title INT NOT NULL,
-  text INT NOT NULL,
+  title VARCHAR(100) NOT NULL,
+  text TEXT(5000) NOT NULL,
   existent_id INT NOT NULL,
   PRIMARY KEY (post_id),
   FOREIGN KEY (existent_id) REFERENCES existents(existent_id)
@@ -78,7 +73,7 @@ CREATE TABLE posts
 CREATE TABLE books
 (
   book_id INT NOT NULL AUTO_INCREMENT,
-  title INT NOT NULL,
+  title VARCHAR(60) NOT NULL,
   author_id INT NOT NULL,
   bookseries_id INT NOT NULL,
   PRIMARY KEY (book_id),
@@ -89,8 +84,8 @@ CREATE TABLE books
 CREATE TABLE posts_edit
 (
   post_edit_id INT NOT NULL AUTO_INCREMENT,
-  old_text INT NOT NULL,
-  new_text INT NOT NULL,
+  old_text TEXT(5000) NOT NULL,
+  new_text TEXT(5000) NOT NULL,
   post_id INT NOT NULL,
   user_id INT NOT NULL,
   PRIMARY KEY (post_edit_id),

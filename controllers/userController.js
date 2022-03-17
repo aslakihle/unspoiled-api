@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken');
 
 
 exports.login = (req, res) => {
-  console.log('login controller')
+  // console.log('login controller')
   loginDb.findByName(req.body.username, (err, data) => {
       // console.log(req.body.username)
     if (err) {
@@ -19,10 +19,14 @@ exports.login = (req, res) => {
           success: false, feedback: "Error retrieving user with name " + req.body.username
         });
       }
-      return;
+      // return;
     }
     if (utils.comparePassword(req.body.password, data.password_hash)) {
-      const token = jwt.sign(req.body, process.env.SECRET_KEY, { expiresIn: "1h"});
+      // console.log(typeof data);
+      let user = data;
+      delete user.password_hash
+      
+      const token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.SECRET_KEY, { expiresIn: "1h"});
       // console.log(token);
     // res.status(200).cookie("jwt", token, {
     //   httpOnly: true,
@@ -37,7 +41,7 @@ exports.login = (req, res) => {
         maxAge: 3600000,
       })
       .status(200)
-      .json({ feedback: "Logged in successfully!" });
+      .json({ user: user, feedback: "Logged in successfully!" });
     }
     else {
       return res.status(403).json({ 

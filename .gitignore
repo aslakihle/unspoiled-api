@@ -94,3 +94,5 @@ sw.*
 # ignore config folder
 config/
 
+*.sql
+setup.sql

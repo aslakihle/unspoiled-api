@@ -1,14 +1,11 @@
 
 const express = require('express');
 const app = express();
-
+require("dotenv").config();
 const cors = require("cors");
+console.log(process.env.CORS_ORIGIN)
 var corsOptions = {
-  origin: "https://unspoiled.vercel.app",
-  // origin: [
-  //   "https://unspoiled.vercel.app",
-  //   "http://localhost:3000",
-  // ],
+  origin: process.env.CORS_ORIGIN,
   credentials: true,
   exposedHeaders: ["set-cookie"],
 };
@@ -36,7 +33,7 @@ app.use(cors(corsOptions));
 //   next();
 // });
 
-require('dotenv').config();
+
 
 
 
