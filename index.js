@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
-console.log(process.env.CORS_ORIGIN)
 var corsOptions = {
   origin: process.env.CORS_ORIGIN,
   credentials: true,
