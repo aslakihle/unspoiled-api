@@ -41,7 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Login routes
-app.use('/user', require('./routes/userRoutes'));
+app.use('/auth', require('./routes/userRoutes'));
 
 
 

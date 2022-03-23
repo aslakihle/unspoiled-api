@@ -6,7 +6,8 @@ const { jwtAuth } = require('../middleware/jwtAuth');
 
 router.post("/login", userController.login);
 router.put("/register", userController.register);
-router.post("/auth", jwtAuth, userController.auth);
+router.get("/user", jwtAuth, userController.user);
+router.get("/logout", userController.logout);
 
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const loginDb = require('../db/userDb');
 const utils = require('../utils/utilities');
-const { jwtAuth } = require('../middleware/jwtAuth');
+// const { jwtAuth } = require('../middleware/jwtAuth');
 
 var jwt = require('jsonwebtoken');
 
@@ -27,23 +27,22 @@ exports.login = (req, res) => {
       delete user.password_hash
       
       const token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.SECRET_KEY, { expiresIn: "1h"});
-      // console.log(token);
-    // res.status(200).cookie("jwt", token, {
-    //   httpOnly: true,
-    // }).send({ 
-    //   success: true, feedback: 'You are logged in!', userId: data.user_id
-    // });
-    return res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        maxAge: 3600000,
-      })
-      .status(200)
-      .json({ user: user, feedback: "Logged in successfully!" });
-    }
-    else {
+        // console.log(token);
+      // res.status(200).cookie("jwt", token, {
+      //   httpOnly: true,
+      // }).send({ 
+      //   success: true, feedback: 'You are logged in!', userId: data.user_id
+      // });
+      return res
+        // .cookie("token", token, {
+        //   httpOnly: true,
+        //   secure: true,
+        //   sameSite: 'none',
+        //   maxAge: 3600000,
+        // })
+        .status(200)
+        .json({ token: token, feedback: "Logged in successfully!" });
+    } else {
       return res.status(403).json({ 
         success: false, feedback: 'The username or password provided is wrong.'
       });
@@ -73,10 +72,38 @@ exports.register = (req, res) => {
   });
 }
 
-exports.auth = (req, res) => {
-  console.log(req.body.jwt);
-  //Add return of cookie to front-end
-  return res.status(200).send({ 
-          success: true, feedback: 'auth response'
+exports.user = (req, res) => {
+  // console.log(req.body.jwt);
+  // //Add return of cookie to front-end
+  // return res.status(200).send({ 
+  //         success: true, feedback: 'auth response'
+  //       });
+  // console.log(req.header.cookie);
+  loginDb.getUserData('1', (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        return res.status(404).json({
+          success: false,
+          feedback: `Not found user with name ${req.body.username}.`,
         });
+      } else {
+        return res.status(500).json({
+          success: false,
+          feedback: "Error retrieving user with name " + req.body.username,
+        });
+      }
+      // return;
+    }
+    else if (data) {
+      return res.status(200).json({
+        success: true,
+        user: data,
+      });
+    }
+    
+  });
+}
+
+exports.logout = (_req, res) => {
+  res.json({ status: 'OK' })
 }
