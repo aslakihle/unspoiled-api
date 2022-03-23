@@ -55,7 +55,8 @@ exports.register = (req, res) => {
   loginDb.findByName(req.body.username, (err, data) => { 
     // console.log('1Error: ' + err)
     // console.log('1Data: ' + (JSON.stringify(data)));
-    if(req.body.username === data.username) {
+    
+    if(data && req.body.username === data.username) {
       // console.log('Feedback: An account with this username already exists.' )
       res.status(409).send({ 
         success: false, feedback: 'An account with this username already exists.' 
