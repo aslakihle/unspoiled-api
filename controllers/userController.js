@@ -1,13 +1,14 @@
-const loginDb = require('../db/userDb');
+const userDb = require('../db/userDb');
 const utils = require('../utils/utilities');
 // const { jwtAuth } = require('../middleware/jwtAuth');
 
 var jwt = require('jsonwebtoken');
-
+var jwt_decode = require('jwt-decode')
+// import jwt_decode from "jwt-decode";
 
 exports.login = (req, res) => {
   // console.log('login controller')
-  loginDb.findByName(req.body.username, (err, data) => {
+  userDb.findByName(req.body.username, (err, data) => {
       // console.log(req.body.username)
     if (err) {
       if (err.kind === "not_found") {
@@ -52,7 +53,7 @@ exports.login = (req, res) => {
 };
 
 exports.register = (req, res) => {
-  loginDb.findByName(req.body.username, (err, data) => { 
+  userDb.findByName(req.body.username, (err, data) => { 
     // console.log('1Error: ' + err)
     // console.log('1Data: ' + (JSON.stringify(data)));
     
@@ -62,7 +63,7 @@ exports.register = (req, res) => {
         success: false, feedback: 'An account with this username already exists.' 
       });
     } else {
-      loginDb.addNewUser(req.body.username, utils.hashPassword(req.body.password), (err, data) => {
+      userDb.addNewUser(req.body.username, utils.hashPassword(req.body.password), (err, data) => {
         // console.log('2Error: ' + err)
         // console.log('ID: ' + (data.insertId));
         res.send({ 
@@ -80,7 +81,12 @@ exports.user = (req, res) => {
   //         success: true, feedback: 'auth response'
   //       });
   // console.log(req.header.cookie);
-  loginDb.getUserData('1', (err, data) => {
+  const authHeader = req.headers['authorization']
+  const split = authHeader.split(' ');
+  const token = split[1];
+  const decoded_token = jwt_decode(token)
+  console.log(decoded_token);
+  userDb.getUserData(decoded_token.user_id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         return res.status(404).json({

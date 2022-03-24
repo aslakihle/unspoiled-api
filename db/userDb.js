@@ -43,11 +43,14 @@ exports.addNewUser = (username, password, result) => {
 
 exports.getUserData = (user_id, result) => {
 sql.query(
-  `SELECT u.user_id, u.username, r.role_id, r.name AS role
-        FROM users as u
-        INNER JOIN user_roles as ur ON u.user_id=ur.user_id
-        INNER JOIN roles as r ON ur.role_id=r.role_id
-        WHERE u.user_id = ${user_id};`,
+  `SELECT user_id, username
+        FROM users
+        WHERE user_id = ${user_id};`,
+  // `SELECT u.user_id, u.username, r.role_id, r.name AS role
+  //       FROM users as u
+  //       INNER JOIN user_roles as ur ON u.user_id=ur.user_id
+  //       INNER JOIN roles as r ON ur.role_id=r.role_id
+  //       WHERE u.user_id = ${user_id};`,
   (err, res) => {
     if (err) {
       console.log("error: ", err);
